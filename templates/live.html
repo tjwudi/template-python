@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <style>
+            body {
+                background-color: black;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <ul id="live-feed"></ul>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
+        <script>
+            const socket = io("https://template-python-dev-mjdd.4.us-1.fl0.io:8080");
+
+            socket.on("response", (data) => {
+                // Update the live feed by appending the received content
+                const liveFeed = document.getElementById("live-feed");
+                const listItem = document.createElement("li");
+                listItem.textContent = JSON.stringify(data['choices'][0]['message']['content']).replace(/\\n/g, "<br>");
+                liveFeed.appendChild(listItem);
+
+                // Scroll to the bottom of the page
+                window.scrollTo(0, document.body.scrollHeight);
+            });
+        </script>
+    </body>
+</html>
